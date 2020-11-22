@@ -1,12 +1,12 @@
 ## Usage
 
 ```
-$ python3 safe_search.py [IMAGE_PATH]
+$ python3 detect_labels.py [-h] -i SOURCE_IMAGE [-r MAX_RESULTS]
 ```
 
 ## Example
 
-Image: `sports.jpg` (Source image: [FORMAT](https://www.format.com/magazine/features/photography/sports-photographers))
+Image: `sports.jpg` (Source image: [format.com](https://www.format.com/magazine/features/photography/sports-photographers))
 
 ![img](images/sports.jpg)
 
@@ -27,7 +27,7 @@ Games (94% confidence)
 Tackle (94% confidence)
 ```
 
-Image: `sports.jpg` (Source image: [wikiwand](https://www.wikiwand.com/id/Reog_(Ponorogo)))
+Image: `street.jpg` (Source image: [langly.co](https://www.langly.co/blogs/resources/street-photography-tips-for-the-adventure-photographer))
 
 ![img](images/street.jpg)
 

@@ -1,9 +1,9 @@
 from google.cloud import vision
-import sys
+import argparse
 import io
 import os
 
-def detect_web(source_image):
+def detect_web(source_image, max_results):
     """Detects Web references to an image"""
     
     # Instantiates a client
@@ -15,7 +15,8 @@ def detect_web(source_image):
     image = vision.Image(content=content)
 
     # Perform web detection
-    response = client.web_detection(image=image)
+    response = client.web_detection(
+        image=image, max_results=max_results)
     annotations = response.web_detection
 
     # Best label
@@ -64,11 +65,17 @@ if __name__ == '__main__':
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
-    try:
-        image_path = sys.argv[1]
-    except:
-        print("Image path not specified. \nUsage: python3 safe_search.py [IMAGE_PATH]")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description='detect web entities and pages in an image')
+    parser.add_argument("-i", "--source_image", required=True, 
+        help="Source image path")
+    parser.add_argument("-r", "--max_results", default=5, type=int,
+        help="Max output results, default is 5")
+    args = vars(parser.parse_args())
+    
+    source_image = args["source_image"]
+    max_results = args["max_results"]
 
-    print("Detecting web entities and pages from {}...\n".format(os.path.basename(image_path)))
-    detect_web(image_path)
+    print("Detecting web entities and pages from {}...\n".format(
+        os.path.basename(source_image)))
+    detect_web(source_image, max_results)

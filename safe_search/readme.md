@@ -1,14 +1,14 @@
 ## Usage
 
 ```
-$ python3 safe_search.py [IMAGE_PATH]
+$ python3 safe_search.py [-h] -i SOURCE_IMAGE
 ```
 
 ## Example
 
-File: `gtaiv.jpg` (Source image: [CNN](https://edition.cnn.com/2013/08/26/tech/gallery/top-violent-video-games/index.html))
+Image: `gtaiv.jpg` (Source image: [CNN](https://edition.cnn.com/2013/08/26/tech/gallery/top-violent-video-games/index.html))
 
-![img](gtaiv.jpg)
+![img](images/gtaiv.jpg)
 
 ```
 $ python3 safe_search.py gtaiv.jpg

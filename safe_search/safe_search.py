@@ -1,5 +1,5 @@
 from google.cloud import vision
-import sys
+import argparse
 import io
 import os
 
@@ -43,11 +43,14 @@ if __name__ == '__main__':
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
-    try:
-        image_path = sys.argv[1]
-    except:
-        print("Image path not specified. \nUsage: python3 safe_search.py [IMAGE_PATH]")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description='detect safesearch in an image')
+    parser.add_argument("-i", "--source_image", required=True, 
+        help="Source image path")
 
-    print("Detecting SafeSearch from {}...\n".format(os.path.basename(image_path)))
-    detect_safe_search(image_path)
+    args = vars(parser.parse_args())
+    source_image = args["source_image"]
+
+    print("Detecting SafeSearch from {}...\n".format(
+        os.path.basename(source_image)))
+    detect_safe_search(source_image)

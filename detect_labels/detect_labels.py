@@ -1,6 +1,5 @@
 from google.cloud import vision
 import argparse
-import sys
 import io
 import os
 
@@ -27,7 +26,6 @@ def detect_labels(source_image, max_results):
             len(labels), "" if len(labels) == 1 else "s")) 
     else:
         print("No label detected")
-        return None
 
     # Show the results
     for label in labels:

@@ -11,7 +11,7 @@ Image: `sports.jpg` (Source image: [format.com](https://www.format.com/magazine/
 ![img](images/sports.jpg)
 
 ```
-$ python3 detect_labels.py --source_image images/sports.jpg
+$ python3 detect_labels.py -i images/sports.jpg
 ```
 
 Output:
@@ -32,7 +32,7 @@ Image: `street.jpg` (Source image: [langly.co](https://www.langly.co/blogs/resou
 ![img](images/street.jpg)
 
 ```
-$ python3 detect_labels.py --source_image images/street.jpg --max_results 8 
+$ python3 detect_labels.py -i images/street.jpg -r 8 
 ```
 
 Output:

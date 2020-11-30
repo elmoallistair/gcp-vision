@@ -16,9 +16,8 @@ $ python3 object_localization.py -i images/furniture.jpg
 
 Output:
 ```
-Detecting objects from furniture.jpg...
+Detecting objects from furniture.jpg... found 5 objects
 
-Found 5 objects
 Flowerpot (76% confidence)
 Plant (75% confidence)
 Chair (73% confidence)
@@ -36,9 +35,8 @@ $ python3 object_localization.py -i images/desk.jpg -r 10
 
 Output:
 ```
-Detecting objects from desk.jpg...
+Detecting objects from desk.jpg... found 7 objects
 
-Found 7 objects
 Laptop (95% confidence)
 Computer keyboard (90% confidence)
 Mobile phone (82% confidence)

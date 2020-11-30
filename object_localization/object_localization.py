@@ -4,7 +4,7 @@ import io
 import os
 
 def localize_objects(source_image, max_results):
-    """Localize objects in the local image"""
+    """Identifies multiple objects in an image"""
 
     # Instantiates a client
     client = vision.ImageAnnotatorClient()
@@ -40,12 +40,12 @@ def localize_objects(source_image, max_results):
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description="localize objects in an image")
+        description="perform object detection")
     parser.add_argument("-i", "--source_image", required=True, 
         help="source image path")
     parser.add_argument("-r", "--max_results", default=5, type=int,

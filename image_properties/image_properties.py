@@ -1,3 +1,4 @@
+# docs: https://cloud.google.com/vision/docs/detecting-properties
 from google.cloud import vision
 import argparse
 import io
@@ -34,7 +35,7 @@ def detect_properties(source_image):
     sort_colors = sorted(colors.items(), key=lambda x: x[1], reverse=True)
     
     # Show the result
-    print('Dominant Colors:')
+    print("Dominant colors:")
     for color in sort_colors:
         hex, coverage = color
         print("{} ({:.1f}% coverage)".format(hex, coverage))
@@ -47,12 +48,12 @@ def detect_properties(source_image):
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description="detects image properties in an image")
+        description="perform properties detection")
     parser.add_argument("-i", "--source_image", required=True, 
         help="source image path")
 

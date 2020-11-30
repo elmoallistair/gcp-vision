@@ -39,14 +39,14 @@ def detect_safe_search(source_image):
             "https://cloud.google.com/apis/design/errors".format(
                 response.error.message))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description='detect safesearch in an image')
+        description="perform safesearch detection")
     parser.add_argument("-i", "--source_image", required=True, 
-        help="Source image path")
+        help="source image path")
 
     args = vars(parser.parse_args())
     source_image = args["source_image"]

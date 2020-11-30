@@ -1,3 +1,4 @@
+# docs: https://cloud.google.com/vision/docs/labels
 from google.cloud import vision
 import argparse
 import io
@@ -22,10 +23,10 @@ def detect_labels(source_image, max_results):
 
     # Count labels detected
     if labels:
-        print("Found {} label{}".format(
+        print("found {} label{}\n".format(
             len(labels), "" if len(labels) == 1 else "s")) 
     else:
-        print("No label detected")
+        print("no label detected")
 
     # Show the results
     for label in labels:
@@ -39,20 +40,21 @@ def detect_labels(source_image, max_results):
             "https://cloud.google.com/apis/design/errors".format(
                 response.error.message))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
-    parser = argparse.ArgumentParser(description='detect labels in an image')
+    parser = argparse.ArgumentParser(
+        description="perform label detection")
     parser.add_argument("-i", "--source_image", required=True, 
-        help="Source image path")
+        help="source image path")
     parser.add_argument("-r", "--max_results", default=5, type=int,
-        help="Max output results, default is 5")
+        help="max output results, default is 5")
+
     args = vars(parser.parse_args())
-    
     source_image = args["source_image"]
     max_results = args["max_results"]
 
-    print("Detecting labels from {}...\n".format(
-        os.path.basename(source_image)))
+    print("Detecting labels from {}...".format(
+        os.path.basename(source_image)), end=" ")
     detect_labels(source_image, max_results)

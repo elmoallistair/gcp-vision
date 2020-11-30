@@ -16,9 +16,7 @@ $ python3 detect_web.py -i images/reog.jpg -r 3
 
 Output:
 ```
-Detecting web entities and pages from reog.jpg...
-
-Best guess label: reog ponorogo
+Detecting web entities and pages from reog.jpg... best guess label: reog ponorogo
 
 Web entities found:
     Ponorogo Regency (Score: 0.78)

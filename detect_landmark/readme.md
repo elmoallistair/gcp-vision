@@ -17,7 +17,7 @@ $ python3 detect_landmark.py -i images/louvre.jpg
 Output:
 
 ```
-Detecting landmark from louvre.jpg...
+Detecting landmark from louvre.jpg... found 2 landmarks
 
 Louvre (79% confidence)
     Bounds    : (70,141), (387,141), (387,273), (70,273)
@@ -39,7 +39,7 @@ $ python3 detect_labels.py -i images/tower_bridge.jpg
 
 Output:
 ```
-Detecting landmark from tower_bridge.jpg...
+Detecting landmark from tower_bridge.jpg... found 2 landmarks
 
 Tower Bridge (85% confidence)
     Bounds    : (113,93), (386,93), (386,219), (113,219)

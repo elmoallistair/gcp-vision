@@ -1,3 +1,4 @@
+# docs: https://cloud.google.com/vision/docs/detecting-web
 from google.cloud import vision
 import argparse
 import io
@@ -22,38 +23,39 @@ def detect_web(source_image, max_results):
     # Best label
     if annotations.best_guess_labels:
         for label in annotations.best_guess_labels:
-            print("Best guess label: {}".format(label.label))
+            print("best guess label: {}".format(label.label))
 
     # Web Entities
     if annotations.web_entities:
         print("\nWeb entities found:")
         for entity in annotations.web_entities:
             if entity.description:
-                print('- {} (Score: {:.2f})'.format(entity.description, entity.score))
+                print("\t{} (Score: {:.2f})".format(
+                    entity.description, entity.score))
     
     # Full matching images
     if annotations.full_matching_images:
         print("\nFull Matches found:")
         for image in annotations.full_matching_images:
-            print('- Url: {}'.format(image.url))
+            print("\tUrl: {}".format(image.url))
 
     # Partial matching images
     if annotations.partial_matching_images:
         print("\nPartial Matches found:")
         for image in annotations.partial_matching_images:
-            print("- Url: {}".format(image.url))
+            print("\tUrl: {}".format(image.url))
 
     # Pages with matching images
     if annotations.pages_with_matching_images:
         print("\nPages with matching images:")
         for page in annotations.pages_with_matching_images:
-            print("- Url: {}".format(page.url))
+            print("\tUrl: {}".format(page.url))
 
     # Similiar images
     if annotations.visually_similar_images:
         print("\nSimilar images found:")
         for image in annotations.visually_similar_images:
-            print("- Url: {}".format(image.url))
+            print("\tUrl: {}".format(image.url))
 
     if response.error.message:
         raise Exception(
@@ -61,21 +63,21 @@ def detect_web(source_image, max_results):
             "https://cloud.google.com/apis/design/errors".format(
                 response.error.message))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Authenticating with a Service Account
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description='detect web entities and pages in an image')
+        description="perforn web entities and pages detection")
     parser.add_argument("-i", "--source_image", required=True, 
-        help="Source image path")
+        help="source image path")
     parser.add_argument("-r", "--max_results", default=5, type=int,
-        help="Max output results, default is 5")
+        help="max output results, default is 5")
     args = vars(parser.parse_args())
     
     source_image = args["source_image"]
     max_results = args["max_results"]
 
-    print("Detecting web entities and pages from {}...\n".format(
-        os.path.basename(source_image)))
+    print("Detecting web entities and pages from {}...".format(
+        os.path.basename(source_image)), end=" ")
     detect_web(source_image, max_results)

@@ -1,3 +1,4 @@
+# https://cloud.google.com/vision/docs/detecting-landmarks
 from google.cloud import vision
 import argparse
 import io
@@ -18,14 +19,19 @@ def detect_landmark(source_image, max_results):
     response = client.landmark_detection(image=image)
     landmarks = response.landmark_annotations
     
-    if not landmarks:
-        print("No landmark detected")
+    # Count landmarks detected
+    if landmarks:
+        print("found {} landmark{}\n".format(
+            len(landmarks), "" if len(landmarks) == 1 else "s")) 
+    else:
+        print("no landmark detected")
 
     # Show the results
     for landmark in landmarks:
         confidence = int(landmark.score * 100)
         vertices = (["({},{})".format(vertex.x, vertex.y) 
                     for vertex in landmark.bounding_poly.vertices])
+
         print("{} ({}% confidence)".format(
             landmark.description, confidence))
         print('\tBounds    : {}'.format(", ".join(vertices)))
@@ -45,7 +51,7 @@ if __name__ == '__main__':
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description="Detects landmarks within an image")
+        description="perform landmark detection")
     parser.add_argument("-i", "--image_path", required=True, 
         help="Source image path")
     parser.add_argument("-r", "--max_results", default=2, type=int,
@@ -55,6 +61,6 @@ if __name__ == '__main__':
     image_path = args["image_path"]
     max_results = args["max_results"]
 
-    print("Detecting landmark from {}...\n".format(
-        os.path.basename(image_path)))
+    print("Detecting landmark from {}...".format(
+        os.path.basename(image_path)), end=" ")
     detect_landmark(image_path, max_results)

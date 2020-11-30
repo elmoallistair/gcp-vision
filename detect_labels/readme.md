@@ -17,9 +17,8 @@ $ python3 detect_labels.py -i images/sports.jpg
 Output:
 
 ```
-Detecting labels from sports.jpg...
+Detecting labels from sports.jpg... found 5 labels
 
-Found 5 labels
 Player (99% confidence)
 Football player (97% confidence)
 Soccer player (95% confidence)
@@ -37,9 +36,8 @@ $ python3 detect_labels.py -i images/street.jpg -r 8
 
 Output:
 ```
-Detecting labels from street.jpg...
+Detecting labels from street.jpg... found 8 labels
 
-Found 8 labels
 Street (94% confidence)
 Alley (90% confidence)
 Town (90% confidence)

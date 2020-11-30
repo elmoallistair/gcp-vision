@@ -1,3 +1,4 @@
+# docs: https://cloud.google.com/vision/docs/detecting-faces
 from google.cloud import vision
 from PIL import Image, ImageDraw
 import argparse
@@ -5,7 +6,8 @@ import io
 import os
 
 def detect_face(source_image, max_results):
-    """Detects multiple faces within an image"""
+    """Detects multiple faces within an image along with the 
+    associated key facial attributes such as emotional state"""
 
     # Instantiates a client
     client = vision.ImageAnnotatorClient()
@@ -13,7 +15,6 @@ def detect_face(source_image, max_results):
     # Loads the image from local
     with io.open(source_image, "rb") as image_file:
         content = image_file.read()
-
     image = vision.Image(content=content)
     
     # Perform face detection
@@ -23,19 +24,25 @@ def detect_face(source_image, max_results):
     
     # Count detected faces
     if faces:
-        print("Found {} face{}".format(
+        print("found {} face{}\n".format(
             len(faces), "" if len(faces) == 1 else "s")) 
     else:
-        print("No face detected")
-        return None
-
+        print("no face detected")
+    
+    # Names of likelihood from google.cloud.vision.enums
+    likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
+                           'LIKELY', 'VERY_LIKELY')
     # Show face informations
     for counter, face in enumerate(faces):
         confidence = int(face.detection_confidence * 100)
         vertices = (["({},{})".format(vertex.x, vertex.y) 
                     for vertex in face.bounding_poly.vertices])
         print("Face {} ({}% confidence)".format(counter+1, confidence))
-        print("\tBounds: {}".format(", ".join(vertices)))
+        print("\tBounds : {}".format(",".join(vertices)))
+        print("\tLikelihood")
+        print("\t\tAnger    : {}".format(likelihood_name[face.anger_likelihood]))
+        print("\t\tJoy      : {}".format(likelihood_name[face.joy_likelihood]))
+        print("\t\tSurprise : {}".format(likelihood_name[face.surprise_likelihood]))
 
     if response.error.message:
         raise Exception(
@@ -46,21 +53,22 @@ def detect_face(source_image, max_results):
     return faces
 
 def highlight_object(source_img, objects):
-    """Draw polygons around the objects."""
+    """Draw polygons around the objects"""
     im = Image.open(source_img)
     draw = ImageDraw.Draw(im)
     
     for counter, object in enumerate(objects):
-        box = [(vertex.x, vertex.y)
-               for vertex in object.bounding_poly.vertices]
         # draw polygon
-        draw.line(box + [box[0]], width=2, fill='#00FF00')
+        box = [(vertex.x, vertex.y)
+               for vertex in object.bounding_poly.vertices]        
+        draw.line(box + [box[0]], width=2, fill="#00FF00")
+        
         # confidence score
         confidence = int(object.detection_confidence * 100)
         draw.text((
             (object.bounding_poly.vertices)[0].x,
             (object.bounding_poly.vertices)[0].y - 15),
-            "Face {} ({}%)".format(counter+1, confidence), fill='#00FF00')
+            "Face {} ({}%)".format(counter+1, confidence), fill="#00FF00")
     
     return im
 
@@ -69,21 +77,21 @@ if __name__ == '__main__':
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/key.json"
     
     parser = argparse.ArgumentParser(
-        description="detects multiple faces within an image")
+        description="perform face detection")
     parser.add_argument("-i", "--image_path", required=True, 
-        help="Source image path")
+        help="source image path")
     parser.add_argument("-o", "--output_path", required=True,
-        help="Output image path")
+        help="output image path")
     parser.add_argument("-r", "--max_results", default=5, type=int,
-        help="Max output results, default is 5")
+        help="max output results, default is 5")
 
     args = vars(parser.parse_args())
     image_path = args["image_path"]
     output_path = args["output_path"]
     max_results = args["max_results"]
 
-    print("Detecting face from {}...\n".format(
-        os.path.basename(image_path)))
+    print("Detecting face from {}...".format(
+        os.path.basename(image_path)), end=" ")
     faces = detect_face(image_path, max_results)
 
     if faces:

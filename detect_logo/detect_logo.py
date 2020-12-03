@@ -8,20 +8,17 @@ import io
 def detect_logo(source_image, max_results):
     """Detects popular product logos within an image"""
 
+    # Instantiates a client
     client = vision.ImageAnnotatorClient()
 
+    # Loads the image from local
     with io.open(source_image, 'rb') as image_file:
         content = image_file.read()
-
     image = vision.Image(content=content)
 
-    response = client.logo_detection(image=image)
-    if response.error.message:
-        raise Exception(
-            '{}\nFor more info on error messages, check: '
-            'https://cloud.google.com/apis/design/errors'.format(
-                response.error.message))
-    
+    # Perform logo detection
+    response = client.logo_detection(
+        image=image, max_results=max_results)
     logos = response.logo_annotations
 
     # Count detected logo
@@ -31,12 +28,19 @@ def detect_logo(source_image, max_results):
     else:
         print("no logo detected.")
 
+    # Show logo information
     for logo in logos:
         confidence = int(logo.score * 100)
         vertices = (['({},{})'.format(vertex.x, vertex.y)
                     for vertex in logo.bounding_poly.vertices])
         print("{} ({}% confidence)".format(logo.description, confidence))
         print("\tBounds : {}".format(','.join(vertices))) 
+
+    if response.error.message:
+        raise Exception(
+            '{}\nFor more info on error messages, check: '
+            'https://cloud.google.com/apis/design/errors'.format(
+                response.error.message))
 
     return logos
 
@@ -46,7 +50,7 @@ def highlight_object(source_img, objects):
     draw = ImageDraw.Draw(im)
     
     for object in objects:
-        name = object.score
+        name = object.description
         confidence = int(object.score * 100)
         vertices = [(vertex.x, vertex.y)
                for vertex in object.bounding_poly.vertices]
@@ -68,8 +72,8 @@ if __name__ == "__main__":
         help="source image path")
     parser.add_argument("-o", "--output_path", required=True,
         help="output image path")
-    parser.add_argument("-r", "--max_results", default=2, type=int,
-        help="max output results, default is 2")
+    parser.add_argument("-r", "--max_results", default=5, type=int,
+        help="max output results, default is 5")
 
     args = vars(parser.parse_args())
     image_path = args["image_path"]

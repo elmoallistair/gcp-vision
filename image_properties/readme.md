@@ -31,7 +31,7 @@ Dominant Colors:
 #d9c293 (0.1% coverage)
 ```
 
-Image: `wikipedia.org` (Source image: [wikipedia.org](https://en.wikipedia.org/wiki/Shades_of_orange#/media/File:Color_icon_orange_v2.svg))
+Image: `shades.jpg` (Source image: [wikipedia.org](https://en.wikipedia.org/wiki/Shades_of_orange#/media/File:Color_icon_orange_v2.svg))
 
 ![img](images/shades.jpg)
 
